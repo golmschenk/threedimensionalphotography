@@ -68,3 +68,10 @@ class Point:
         :param translation_matrix: np.ndarray
         """
         self.coordinates = np.add(translation_matrix, self.coordinates)
+
+    def transform(self, transformation_matrix):
+        """
+        Transforms the point as defined by the transformation matrix.
+        :param translation_matrix: np.ndarray
+        """
+        self.coordinates = np.delete(np.dot(transformation_matrix, np.append(self.coordinates, 1)), 3)
