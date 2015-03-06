@@ -19,3 +19,14 @@ class PointCloud:
         """
         for point in self.points:
             point.transform(transformation_matrix)
+
+    def attain_transformation_to_point_cloud(self, point_cloud):
+        """
+        Finds the transfomation to another point cloud.
+        :param point_cloud: PointCloud
+        :return transformation_matrix: np.ndarray
+        """
+        p0 = self.points[0]
+        p1 = self.points[1]
+        p2 = self.points[2]
+

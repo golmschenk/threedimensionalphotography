@@ -114,3 +114,14 @@ class TestPoint:
         assert almost_equal(point.x, 3)
         assert almost_equal(point.y, 0)
         assert almost_equal(point.z, 6)
+
+    def test_distance_to_another_point(self):
+        point0 = Point(1, 1, 1)
+        point1 = Point(2, 2, 2)
+        point2 = Point(3, 3, 3)
+
+        distance0 = point0.attain_distance_to_point(point1)
+        distance1 = point0.attain_distance_to_point(point2)
+
+        assert distance0 == 3**(1/2.0)
+        assert distance1 == 12**(1/2.0)

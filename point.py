@@ -81,3 +81,11 @@ class Point:
         :param translation_matrix: np.ndarray
         """
         self.coordinates = np.delete(np.dot(transformation_matrix, np.append(self.coordinates, 1)), 3)
+
+    def attain_distance_to_point(self, point):
+        """
+        Finds the distance to another point.
+        :param point: Point
+        :return distance: double
+        """
+        return ((self.x - point.x)**2.0 + (self.y - point.y)**2.0 + (self.z - point.z)**2.0)**(1/2.0)
