@@ -89,3 +89,6 @@ class Point:
         :return distance: double
         """
         return ((self.x - point.x)**2.0 + (self.y - point.y)**2.0 + (self.z - point.z)**2.0)**(1/2.0)
+
+    def attain_vector_length(self):
+        return (self.x**2.0 + self.y**2.0 + self.z**2.0)**(1/2.0)

@@ -125,3 +125,10 @@ class TestPoint:
 
         assert distance0 == 3**(1/2.0)
         assert distance1 == 12**(1/2.0)
+
+    def test_find_vector_length(self):
+        point = Point(2, 2, 2)
+
+        length = point.attain_vector_length()
+
+        assert length == 12**(1/2.0)
