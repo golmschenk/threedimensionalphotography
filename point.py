@@ -15,7 +15,7 @@ class Point:
     # Computed attributes
     def set_x(self, arg):
         """
-        :param arg: Sets the x coordinate.
+        :param arg: double
         """
         self.coordinates[0] = arg
 
@@ -29,7 +29,7 @@ class Point:
 
     def set_y(self, arg):
         """
-        :param arg: Sets the y coordinate.
+        :param arg: double
         """
         self.coordinates[1] = arg
 
@@ -43,7 +43,7 @@ class Point:
 
     def set_z(self, arg):
         """
-        :param arg: Sets the z coordinate.
+        :param arg: double
         """
         self.coordinates[2] = arg
 
@@ -54,3 +54,10 @@ class Point:
         return self.coordinates[2]
 
     z = property(get_z, set_z)
+
+    def rotate(self, rotation_matrix):
+        """
+        Rotates the point as defined by the rotation matrix.
+        :param rotation_matrix: np.ndarray
+        """
+        self.coordinates = np.dot(rotation_matrix, self.coordinates)

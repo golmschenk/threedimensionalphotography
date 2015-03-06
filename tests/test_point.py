@@ -3,7 +3,10 @@ Tests for the Point class.
 """
 
 from ..point import Point
+from mathematics import π, almost_equal
+
 import numpy as np
+from math import cos, sin
 
 
 class TestPoint:
@@ -48,3 +51,37 @@ class TestPoint:
         assert point.x == 1
         assert point.y == 2
         assert point.z == 3
+
+    def test_x_axis_rotation(self):
+        """Test rotation on the x-axis."""
+        point = Point(1, 1, 1)
+        rotation = np.array([[1, 0, 0], [0, cos(π/2), -sin(π/2)], [0, sin(π/2), cos(π/2)]])
+
+        point.rotate(rotation)
+
+        assert almost_equal(point.x, 1)
+        assert almost_equal(point.y, -1)
+        assert almost_equal(point.z, 1)
+
+    def test_z_axis_rotation(self):
+        """Test rotation on the x-axis."""
+        point = Point(1, 1, 1)
+        rotation = np.array([[cos(π/2), -sin(π/2), 0], [sin(π/2), cos(π/2), 0], [0, 0, 1]])
+
+        point.rotate(rotation)
+
+        assert almost_equal(point.x, -1)
+        assert almost_equal(point.y, 1)
+        assert almost_equal(point.z, 1)
+
+    def test_y_axis_rotation(self):
+        """Test rotation on the x-axis."""
+        point = Point(1, 1, 1)
+        rotation = np.array([[cos(π/2), 0, sin(π/2)], [0, 1, 0], [-sin(π/2), 0, cos(π/2)]])
+
+        point.rotate(rotation)
+
+        assert almost_equal(point.x, 1)
+        assert almost_equal(point.y, 1)
+        assert almost_equal(point.z, -1)
+
