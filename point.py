@@ -61,3 +61,10 @@ class Point:
         :param rotation_matrix: np.ndarray
         """
         self.coordinates = np.dot(rotation_matrix, self.coordinates)
+
+    def translate(self, translation_matrix):
+        """
+        Translates the point as defined by the translation matrix.
+        :param translation_matrix: np.ndarray
+        """
+        self.coordinates = np.add(translation_matrix, self.coordinates)

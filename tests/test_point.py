@@ -85,3 +85,12 @@ class TestPoint:
         assert almost_equal(point.y, 1)
         assert almost_equal(point.z, -1)
 
+    def test_translation(self):
+        point = Point(1, 1, 1)
+        translation = np.array([2, 3, 4])
+
+        point.translate(translation)
+
+        assert almost_equal(point.x, 3)
+        assert almost_equal(point.y, 4)
+        assert almost_equal(point.z, 5)
