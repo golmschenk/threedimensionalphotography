@@ -40,3 +40,11 @@ class TestPoint:
         point.z = 3
 
         assert np.array_equal(point.coordinates, np.array([1, 2, 3]))
+
+    def test_coordinates_as_gettable_computed_attributes(self):
+        """Test the ability to get coordinates using x, y, and z dot notation."""
+        point = Point(1, 2, 3)
+
+        assert point.x == 1
+        assert point.y == 2
+        assert point.z == 3
