@@ -104,3 +104,13 @@ class TestPoint:
         assert almost_equal(point.x, 3)
         assert almost_equal(point.y, 2)
         assert almost_equal(point.z, 5)
+
+    def test_transformation2(self):
+        point = Point(1, 2, 3)
+        transformation = np.array([[1, 0, 0, 2], [0, cos(π/2), -sin(π/2), 3], [0, sin(π/2), cos(π/2), 4], [0, 0, 0, 1]])
+
+        point.transform(transformation)
+
+        assert almost_equal(point.x, 3)
+        assert almost_equal(point.y, 0)
+        assert almost_equal(point.z, 6)
