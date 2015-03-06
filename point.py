@@ -9,5 +9,5 @@ class Point:
     """
     Three dimensional point class.
     """
-    def __init__(self):
-        self.coordinates = np.array([0, 0, 0])
+    def __init__(self, x=0, y=0, z=0):
+        self.coordinates = np.array([x, y, z])
