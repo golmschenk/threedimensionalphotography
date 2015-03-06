@@ -1,6 +1,9 @@
 """
 Point cloud stuff.
 """
+import numpy as np
+
+from point import Point
 
 class PointCloud:
     """
@@ -20,13 +23,37 @@ class PointCloud:
         for point in self.points:
             point.transform(transformation_matrix)
 
+    def attain_global_rotation(self):
+        p0 = self.points[0].coordinates
+        p1 = self.points[1].coordinates
+        p2 = self.points[2].coordinates
+
+        po0 = Point(a=p0)
+        po1 = Point(a=p1)
+        t1 = Point(p0).attain_distance_to_point(Point(p1))
+        t2 = np.subtract(p0, p1)
+        t3 = np.divide(np.subtract(p0, p1), Point(a=p0).attain_distance_to_point(Point(a=p1)))
+        x = Point(a=np.divide(np.subtract(p0, p1), Point(a=p0).attain_distance_to_point(Point(a=p1))))
+        y_non_unit = Point(a=np.subtract(np.subtract(p2, p0), np.dot(np.dot(np.subtract(p2, p0), x.coordinates), x.coordinates)))
+        y = Point(a=y_non_unit.coordinates / y_non_unit.attain_vector_length())
+        z = Point(a=np.cross(x.coordinates, y.coordinates))
+
+        return np.concatenate((x.coordinates, y.coordinates, z.coordinates), 1).reshape(3, 3).transpose()
+
     def attain_transformation_to_point_cloud(self, point_cloud):
         """
         Finds the transfomation to another point cloud.
         :param point_cloud: PointCloud
         :return transformation_matrix: np.ndarray
         """
-        p0 = self.points[0]
-        p1 = self.points[1]
-        p2 = self.points[2]
+        rotation_self = self.attain_global_rotation()
+        rotation_other = point_cloud.attain_global_rotation()
+        rotation = np.dot(rotation_other, rotation_self.transpose())
+
+        translation = np.array([np.subtract(point_cloud.points[0].coordinates, np.dot(rotation, self.points[0].coordinates))])
+        padding = np.array([[0, 0, 0, 1]])
+        transformation = np.concatenate((np.concatenate((rotation, translation.T), 1), padding))
+        return transformation
+
+
 

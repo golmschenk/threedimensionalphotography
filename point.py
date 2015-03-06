@@ -9,8 +9,11 @@ class Point:
     """
     Three dimensional point class.
     """
-    def __init__(self, x=0, y=0, z=0):
-        self.coordinates = np.array([x, y, z])
+    def __init__(self, x=0, y=0, z=0, a=None):
+        if type(a) is np.ndarray:
+            self.coordinates = a
+        else:
+            self.coordinates = np.array([x, y, z])
 
     def __eq__(self, other):
         return np.allclose(self.coordinates, other.coordinates)
