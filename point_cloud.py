@@ -28,11 +28,6 @@ class PointCloud:
         p1 = self.points[1].coordinates
         p2 = self.points[2].coordinates
 
-        po0 = Point(a=p0)
-        po1 = Point(a=p1)
-        t1 = Point(p0).attain_distance_to_point(Point(p1))
-        t2 = np.subtract(p0, p1)
-        t3 = np.divide(np.subtract(p0, p1), Point(a=p0).attain_distance_to_point(Point(a=p1)))
         x = Point(a=np.divide(np.subtract(p0, p1), Point(a=p0).attain_distance_to_point(Point(a=p1))))
         y_non_unit = Point(a=np.subtract(np.subtract(p2, p0), np.dot(np.dot(np.subtract(p2, p0), x.coordinates), x.coordinates)))
         y = Point(a=y_non_unit.coordinates / y_non_unit.attain_vector_length())
@@ -40,9 +35,9 @@ class PointCloud:
 
         return np.concatenate((x.coordinates, y.coordinates, z.coordinates), 1).reshape(3, 3).transpose()
 
-    def attain_transformation_to_point_cloud(self, point_cloud):
+    def attain_exact_transformation_to_point_cloud(self, point_cloud):
         """
-        Finds the transfomation to another point cloud.
+        Finds the transformation to another point cloud.
         :param point_cloud: PointCloud
         :return transformation_matrix: np.ndarray
         """
@@ -54,6 +49,24 @@ class PointCloud:
         padding = np.array([[0, 0, 0, 1]])
         transformation = np.concatenate((np.concatenate((rotation, translation.T), 1), padding))
         return transformation
+
+    def attain_centroid(self):
+        """
+        Gets the centroid of a point cloud.
+        :return centroid: Point
+        """
+        sum = np.array([0, 0, 0])
+        for point in self.points:
+            sum = np.add(sum, point.coordinates)
+        return Point(a=np.divide(sum, len(self.points)))
+
+    def attain_transformation_to_point_cloud(self, point_cloud):
+        """
+        Finds the exact transformation to another point cloud.
+        :param point_cloud: PointCloud
+        :return transformation_matrix: np.ndarray
+        """
+        pass
 
 
 
