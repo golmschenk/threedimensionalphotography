@@ -101,3 +101,11 @@ class PointCloud:
         padding = np.array([[0, 0, 0, 1]])
         transformation_matrix = np.concatenate((np.concatenate((R, T.T), 1), padding))
         return transformation_matrix
+
+    def attain_correspondences_to_cloud(self, cloud, threshold=2.0):
+        correspondences = []
+        for point in self.points:
+            correspondence = point.attain_closest_point_in_cloud(cloud)
+            if correspondence.attain_distance_to_point(point) < threshold:
+                correspondences.append(correspondence)
+        return correspondences
