@@ -12,7 +12,13 @@ class PointCloud:
 
     def __init__(self, *args):
         """:type : list of [Point]"""
-        self.points = args
+        if not args:
+            self.points = []
+        else:
+            self.points = args
+
+    def __eq__(self, other):
+        return all(point == other.points[i] for i, point in enumerate(self.points))
 
     def transform(self, transformation_matrix):
         """
@@ -59,6 +65,17 @@ class PointCloud:
         for point in self.points:
             sum = np.add(sum, point.coordinates)
         return Point(a=np.divide(sum, len(self.points)))
+
+    def attain_centered_point_cloud(self):
+        """
+        Gets the point cloud centered around the centroid as the origin.
+        :return centered_point_cloud: PointCloud
+        """
+        centered_point_cloud = PointCloud()
+        centroid = self.attain_centroid()
+        for point in self.points:
+            centered_point_cloud.points.append(Point(a=np.subtract(point.coordinates, centroid.coordinates)))
+        return centered_point_cloud
 
     def attain_transformation_to_point_cloud(self, point_cloud):
         """

@@ -75,6 +75,14 @@ class TestPointCloud:
 
         assert centroid == expected_centroid
 
+    def test_finding_centered_point_cloud(self):
+        point_cloud = PointCloud(Point(1, 1, 1), Point(1, 3, 1), Point(3, 1, 1), Point(3, 3, 1))
+        expected_point_cloud = PointCloud(Point(-1, -1, 0), Point(-1, 1, 0), Point(1, -1, 0), Point(1, 1, 0))
+
+        centered_point_cloud = point_cloud.attain_centered_point_cloud()
+
+        assert centered_point_cloud == expected_point_cloud
+
     def test_finding_transformation_to_another_point_cloud(self):
         point_cloud_r = PointCloud(Point(1, 1, 1), Point(1, 5, 4), Point(2, 3, 7),
                                    Point(4, 1, 1), Point(4, 5, 4), Point(4, 3, 7))
