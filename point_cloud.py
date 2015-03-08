@@ -83,7 +83,21 @@ class PointCloud:
         :param point_cloud: PointCloud
         :return transformation_matrix: np.ndarray
         """
-        pass
-
-
-
+        centered_self = self.attain_centered_point_cloud()
+        centered_other = point_cloud.attain_centered_point_cloud()
+        H = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+        for i in range(len(centered_self.points)):
+            q0 = centered_self.points[i]
+            q1 = centered_other.points[i]
+            H = np.add(H,
+                       np.array([[np.dot(q1.x, q0.x), np.dot(q1.x, q0.y), np.dot(q1.x, q0.z)],
+                                 [np.dot(q1.y, q0.x), np.dot(q1.y, q0.y), np.dot(q1.y, q0.z)],
+                                 [np.dot(q1.z, q0.x), np.dot(q1.z, q0.y), np.dot(q1.z, q0.z)]]))
+        U, _, V = np.linalg.svd(H)
+        R = np.dot(V.T, U.T).T # If there's a problem somewhere, it's here.
+        p0 = self.attain_centroid()
+        p1 = point_cloud.attain_centroid()
+        T = np.array([np.subtract(p1.coordinates, np.dot(R, p0.coordinates))])
+        padding = np.array([[0, 0, 0, 1]])
+        transformation_matrix = np.concatenate((np.concatenate((R, T.T), 1), padding))
+        return transformation_matrix
