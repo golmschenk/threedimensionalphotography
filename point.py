@@ -95,3 +95,13 @@ class Point:
 
     def attain_vector_length(self):
         return (self.x**2.0 + self.y**2.0 + self.z**2.0)**(1/2.0)
+
+    def attain_closest_point_in_cloud(self, point_cloud):
+        minimum_distance = float("inf")
+        closest_point = None
+        for point in point_cloud.points:
+            distance = self.attain_distance_to_point(point)
+            if self.attain_distance_to_point(point) < minimum_distance:
+                minimum_distance = distance
+                closest_point = point
+        return closest_point

@@ -7,6 +7,7 @@ from mathematics import π, almost_equal
 
 import numpy as np
 from math import cos, sin
+from point_cloud import PointCloud
 
 
 class TestPoint:
@@ -132,3 +133,12 @@ class TestPoint:
         length = point.attain_vector_length()
 
         assert length == 12**(1/2.0)
+
+    def test_finding_closest_point_in_cloud(self):
+        point_cloud = PointCloud(Point(1, 1, 1), Point(1, 3, 1), Point(3, 1, 1), Point(3, 3, 1))
+        expected_closet_point = Point(1, 1, 1)
+        point = Point(-1, -1, -1)
+
+        closest_point = point.attain_closest_point_in_cloud(point_cloud)
+
+        assert closest_point == expected_closet_point
