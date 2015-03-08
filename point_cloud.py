@@ -1,6 +1,7 @@
 """
 Point cloud stuff.
 """
+from random import choice
 import numpy as np
 
 from point import Point
@@ -102,10 +103,28 @@ class PointCloud:
         transformation_matrix = np.concatenate((np.concatenate((R, T.T), 1), padding))
         return transformation_matrix
 
-    def attain_correspondences_to_cloud(self, cloud, threshold=2.0):
+    def attain_correspondences_to_cloud(self, cloud, threshold):
         correspondences = []
-        for point in self.points:
+        i = 0
+        while i < len(self.points):
+            point = self.points[i]
             correspondence = point.attain_closest_point_in_cloud(cloud)
             if correspondence.attain_distance_to_point(point) < threshold:
                 correspondences.append(correspondence)
-        return correspondences
+                i += 1
+            else:
+                self.points.pop(i)
+
+        return PointCloud(*correspondences)
+
+    def random_sample(self, size):
+        sample = PointCloud()
+        for _ in range(size):
+            sample.points.append(choice(self.points))
+        return sample
+
+    def icp_iteration(self, other, sample_size=100, threshold=2.0):
+        sample = self.random_sample(sample_size)
+        correspondences = sample.attain_correspondences_to_cloud(other, threshold)
+        transformation = sample.attain_transformation_to_point_cloud(correspondences)
+        self.transform(transformation)
