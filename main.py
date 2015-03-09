@@ -7,13 +7,19 @@ from math import cos, sin
 from mathematics import π
 from point_cloud import PointCloud
 from point import Point
+from ptx_handler import PtxHandler
 
-point_cloud_l = PointCloud(Point(1, 1, 1), Point(1, 5, 4), Point(2, 3, 7), Point(4, 1, 1), Point(4, 5, 4), Point(4, 3, 7))
-point_cloud_r = PointCloud(Point(1, 1, 1), Point(1, 5, 4), Point(2, 3, 7), Point(4, 1, 1), Point(4, 5, 4), Point(4, 3, 7))
-transformation = np.array([[1, 0,        0,         5],
-                           [0, cos(π/4), -sin(π/4), 4],
-                           [0, sin(π/4),  cos(π/4), 3],
-                           [0, 0,        0,         1]])
+gh17_to_gh23_close = np.array([[0.769006,  0.300208,  0.564362,  15.474807],
+                               [-0.340899,  0.939441, -0.035215, -2.941283],
+                               [-0.540756, -0.165310,  0.824776, - 4.791782],
+                               [0, 0, 0, 1]])
 
-point_cloud_l.transform(transformation)
+gh17_to_gh16_close = np.array([[0.999953, 0.004953,  0.008324, -0.000003],
+                               [-0.003077, 0.977294, -0.211865,  0.001217],
+                               [-0.009184, 0.211829,  0.977264,  0.017408],
+                               [0, 0, 0, 1]])
+
+point_cloud = PtxHandler.point_cloud_from_ptx("gh17.ptx")
+point_cloud.transform(gh17_to_gh23_close)
+PtxHandler.ptx_from_point_cloud("gh17to23.ptx", point_cloud)
 print('yo')

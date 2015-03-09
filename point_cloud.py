@@ -17,6 +17,7 @@ class PointCloud:
             self.points = []
         else:
             self.points = args
+        self.ptx_size = None
 
     def __eq__(self, other):
         return all(point == other.points[i] for i, point in enumerate(self.points))
