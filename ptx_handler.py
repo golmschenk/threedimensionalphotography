@@ -24,6 +24,7 @@ class PtxHandler:
                 points.append(Point(x, y, z))
             point_cloud = PointCloud(*points)
             point_cloud.ptx_size = (int(lines[0]), int(lines[1]))
+            return point_cloud
 
     @classmethod
     def ptx_from_point_cloud(cls, filename, point_cloud):
